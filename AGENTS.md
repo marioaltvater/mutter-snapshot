@@ -61,7 +61,7 @@ This project is a GNOME Shell extension that requires manual installation steps 
    - Provide instructions to reload GNOME Shell
 
 3. **After script completion:**
-   - Press `Alt+F2`, type `restart`, press `Enter` to reload GNOME Shell
+   - Log out and log back in to reload GNOME Shell (required in Wayland)
    - Verify extension appears in `gnome-extensions list`
    - Check logs with: `journalctl -f -o cat /usr/bin/gnome-shell | grep MutterSnapshot`
 

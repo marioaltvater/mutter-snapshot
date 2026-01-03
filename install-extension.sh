@@ -17,29 +17,28 @@ if [[ ! -d "$SCRIPT_DIR/mutter-snapshot@mario.work" ]]; then
 fi
 
 echo "1. Copying extension to $EXTENSION_DIR..."
-mkdir -p "$(dirname "$EXTENSION_DIR")"
-cp -r "$SCRIPT_DIR/mutter-snapshot@mario.work" "$EXTENSION_DIR"
+mkdir -p "$EXTENSION_DIR"
+cp -r "$SCRIPT_DIR/mutter-snapshot@mario.work/"* "$EXTENSION_DIR/"
 echo "   Extension copied"
 echo
 
 echo "2. Installing GSettings schema..."
-if [[ -f "$SCRIPT_DIR/$SCHEMA_FILE" ]]; then
-    if sudo cp "$SCRIPT_DIR/$SCHEMA_FILE" "$SYSTEM_SCHEMA_DIR/"; then
+if [[ -f "$SCRIPT_DIR/mutter-snapshot@mario.work/$SCHEMA_FILE" ]]; then
+    if sudo cp "$SCRIPT_DIR/mutter-snapshot@mario.work/$SCHEMA_FILE" "$SYSTEM_SCHEMA_DIR/" 2>/dev/null; then
         echo "   Schema file copied to $SYSTEM_SCHEMA_DIR"
-        
+
         echo "3. Compiling schemas..."
-        if sudo glib-compile-schemas "$SYSTEM_SCHEMA_DIR"; then
+        if sudo glib-compile-schemas "$SYSTEM_SCHEMA_DIR" 2>/dev/null; then
             echo "   Schemas compiled successfully"
         else
-            echo "   Error: Failed to compile schemas"
-            exit 1
+            echo "   Warning: Failed to compile schemas (extension may still work)"
         fi
     else
-        echo "   Error: Failed to copy schema file (requires sudo)"
-        exit 1
+        echo "   Warning: Failed to copy schema file (requires sudo access)"
+        echo "   Extension will be installed without schema support"
     fi
 else
-    echo "   Warning: Schema file not found at $SCRIPT_DIR/$SCHEMA_FILE"
+    echo "   Warning: Schema file not found at $SCRIPT_DIR/mutter-snapshot@mario.work/$SCHEMA_FILE"
     echo "   Extension will be installed without schema support"
 fi
 echo
@@ -59,32 +58,16 @@ else
 fi
 echo
 
-echo "5. Reloading extension..."
-if gnome-extensions list | grep -q "^$EXTENSION_NAME$"; then
-    echo "   Disabling $EXTENSION_NAME..."
-    gnome-extensions disable "$EXTENSION_NAME"
-    echo "   Enabling $EXTENSION_NAME..."
-    gnome-extensions enable "$EXTENSION_NAME"
-    echo "   Extension reloaded"
-else
-    echo "   Enabling $EXTENSION_NAME for the first time..."
-    gnome-extensions enable "$EXTENSION_NAME"
-    echo "   Extension enabled"
-fi
+echo "5. Restarting GNOME Shell to load extension..."
+echo "   NOTE: You must log out and log back in to reload GNOME Shell"
 echo
 
-echo "6. Verifying extension is active..."
-if gnome-extensions list | grep -q "^$EXTENSION_NAME$"; then
-    echo "   ✓ Extension installed and enabled"
-else
-    echo "   ⚠ Extension may not have loaded correctly"
-fi
-echo
-
-echo "Installation complete!"
+echo "After restarting GNOME Shell:"
+echo "   - Enable the extension: gnome-extensions enable $EXTENSION_NAME"
+echo "   - Or enable it via the Extensions app"
 echo
 echo "To view logs:"
 echo "  journalctl -f -o cat /usr/bin/gnome-shell | grep MutterSnapshot"
 echo
-echo "  4. To view logs:"
-echo "     journalctl -f -o cat /usr/bin/gnome-shell | grep MutterSnapshot"
+
+echo "Installation complete!"
