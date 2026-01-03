@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema path="/org/gnome/shell/extensions/mutter-snapshot/" id="org.gnome.shell.extensions.mutter-snapshot">
+    <key name="restore-interval" type="i">
+      <default>100</default>
+      <summary>Delay between app launches (ms)</summary>
+      <description>Time to wait between launching apps during restore</description>
+      <range min="50" max="500"/>
+    </key>
+    <key name="disable-tilingshell-during-restore" type="b">
+      <default>true</default>
+      <summary>Disable TilingShell auto-tiling during restore</summary>
+    </key>
+    <key name="save-shortcut" type="s">
+      <default>"&lt;Ctrl&gt;&lt;Alt&gt;s"</default>
+      <summary>Save session keyboard shortcut</summary>
+    </key>
+    <key name="restore-shortcut" type="s">
+      <default>"&lt;Ctrl&gt;&lt;Alt&gt;r"</default>
+      <summary>Restore session keyboard shortcut</summary>
+    </key>
+    <key name="debug-mode" type="b">
+      <default>false</default>
+      <summary>Enable debug logging</summary>
+    </key>
+  </schema>
+</schemalist>
