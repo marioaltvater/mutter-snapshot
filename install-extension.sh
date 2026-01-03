@@ -59,15 +59,32 @@ else
 fi
 echo
 
+echo "5. Reloading extension..."
+if gnome-extensions list | grep -q "^$EXTENSION_NAME$"; then
+    echo "   Disabling $EXTENSION_NAME..."
+    gnome-extensions disable "$EXTENSION_NAME"
+    echo "   Enabling $EXTENSION_NAME..."
+    gnome-extensions enable "$EXTENSION_NAME"
+    echo "   Extension reloaded"
+else
+    echo "   Enabling $EXTENSION_NAME for the first time..."
+    gnome-extensions enable "$EXTENSION_NAME"
+    echo "   Extension enabled"
+fi
+echo
+
+echo "6. Verifying extension is active..."
+if gnome-extensions list | grep -q "^$EXTENSION_NAME$"; then
+    echo "   ✓ Extension installed and enabled"
+else
+    echo "   ⚠ Extension may not have loaded correctly"
+fi
+echo
+
 echo "Installation complete!"
 echo
-echo "Next steps:"
-echo "  1. Reload GNOME Shell by running:"
-echo "     gnome-extensions disable $EXTENSION_NAME"
-echo "     gnome-extensions enable $EXTENSION_NAME"
-echo
-echo "  3. Verify extension appears in the list:"
-echo "     gnome-extensions list | grep mutter-snapshot"
+echo "To view logs:"
+echo "  journalctl -f -o cat /usr/bin/gnome-shell | grep MutterSnapshot"
 echo
 echo "  4. To view logs:"
 echo "     journalctl -f -o cat /usr/bin/gnome-shell | grep MutterSnapshot"
