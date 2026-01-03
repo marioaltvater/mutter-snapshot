@@ -42,3 +42,27 @@ Keep this managed block so 'openspec update' can refresh the instructions.
 - NEVER stop before pushing - that leaves work stranded locally
 - NEVER say "ready to push when you are" - YOU must push
 - If push fails, resolve and retry until it succeeds
+
+## Project-Specific Handover Requirements
+
+**Mutter Snapshot Extension Installation:**
+
+This project is a GNOME Shell extension that requires manual installation steps after development. When handing over work or after making changes to the extension skeleton, schemas, or configuration:
+
+1. **Run the installation script** (see task `mutter-snapshot-djp` for implementation):
+   ```bash
+   ./install-extension.sh
+   ```
+
+2. **The script will:**
+   - Copy extension to `~/.local/share/gnome-shell/extensions/mutter-snapshot@mario.work/`
+   - Install GSettings schema to `/usr/share/glib-2.0/schemas/` (requires sudo)
+   - Compile schemas with `glib-compile-schemas`
+   - Provide instructions to reload GNOME Shell
+
+3. **After script completion:**
+   - Press `Alt+F2`, type `restart`, press `Enter` to reload GNOME Shell
+   - Verify extension appears in `gnome-extensions list`
+   - Check logs with: `journalctl -f -o cat /usr/bin/gnome-shell | grep MutterSnapshot`
+
+**Note:** This is a one-time setup. Future changes to extension code can be reloaded by simply re-running the script.
