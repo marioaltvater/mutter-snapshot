@@ -62,10 +62,7 @@ echo
 echo "Installation complete!"
 echo
 echo "Next steps:"
-echo "  1. Reload GNOME Shell by pressing:"
-echo "     Alt+F2 → type 'restart' → press Enter"
-echo
-echo "  2. Or run the following commands:"
+echo "  1. Reload GNOME Shell by running:"
 echo "     gnome-extensions disable $EXTENSION_NAME"
 echo "     gnome-extensions enable $EXTENSION_NAME"
 echo
