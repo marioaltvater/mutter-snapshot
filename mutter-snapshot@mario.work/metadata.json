@@ -1,0 +1,8 @@
+{
+  "name": "Mutter Snapshot",
+  "description": "Reliable window session management for Wayland with TilingShell integration",
+  "uuid": "mutter-snapshot@mario.work",
+  "shell-version": ["49", "50"],
+  "url": "https://github.com/mario/mutter-snapshot-extension",
+  "version": "1.0"
+}
